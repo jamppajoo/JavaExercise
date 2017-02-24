@@ -18,6 +18,7 @@ import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         OutputStreamWriter osw = null;
         BufferedWriter bw = null;
 
+
         try{
             os = this.openFileOutput("SavedNotifications.txt",MODE_PRIVATE);
         }catch (FileNotFoundException e){
@@ -95,10 +97,12 @@ public class MainActivity extends AppCompatActivity {
         bw = new BufferedWriter(osw);
 
         try{
-            bw.write(messages.get(0).toString());
-            bw.newLine();
-            bw.write(dates.get(0).toString());
-            bw.newLine();
+            for(int i = 0; i <messages.size(); i++){
+                bw.write(messages.get(i).toString());
+                bw.newLine();
+                bw.write(dates.get(i).toString());
+                bw.newLine();
+            }
             bw.flush();
             bw.close();
             osw.close();
@@ -120,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
             is = openFileInput("SavedNotifications.txt");
         }catch (FileNotFoundException e ){
             e.printStackTrace();
+            return;
         }
 
         isr = new InputStreamReader(is);
@@ -127,8 +132,8 @@ public class MainActivity extends AppCompatActivity {
 
         String message;
         String date;
-        try{
-            while ((message = br.readLine())!=null){
+        try {
+            while ((message = br.readLine()) != null) {
                 readedMessages.add(message);
                 date = br.readLine();
                 readedDates.add(date);
